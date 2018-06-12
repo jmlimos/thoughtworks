@@ -3,20 +3,40 @@ import java.util.List;
 
 public class ParkingLot {
 
-  private int parkingLotMax = 2;
-  private List<Car> parkingSlots = new ArrayList<>();
+  private int maxSlots;
+  private int parkingLots;
+  private Car[][] parkingSlots;
+
+  public ParkingLot(int maxSlots, int parkingLots) {
+    this.maxSlots = maxSlots;
+    this.parkingLots = parkingLots;
+    parkingSlots = new Car[maxSlots][parkingLots];
+  }
 
   public void park(Car car) {
-    if(parkingSlots.size() < parkingLotMax){
-      parkingSlots.add(car);
-      car.setParked(true);
+    for(int parkingLotsCtr = 0; parkingLotsCtr < parkingLots ; parkingLotsCtr++){
+      for(int slotsCtr = 0; slotsCtr < maxSlots; slotsCtr++){
+        if(parkingSlots[parkingLotsCtr][slotsCtr] == null){
+          parkingSlots[parkingLotsCtr][slotsCtr] = car;
+          car.setParked(true);
+          car.setParkSlot(String.valueOf(parkingLotsCtr) + String.valueOf(slotsCtr));
+        }
+      }
     }
   }
 
   public void pick(Car car) {
-    if(parkingSlots.contains(car)){
-      parkingSlots.remove(car);
-      car.setParked(false);
+//    if(parkingSlots.contains(car)){
+//      parkingSlots.remove(car);
+//      car.setParked(false);
+//    }
+    for(int parkingLotsCtr = 0; parkingLotsCtr < parkingLots ; parkingLotsCtr++){
+      for(int slotsCtr = 0; slotsCtr < maxSlots; slotsCtr++){
+        if(parkingSlots[parkingLotsCtr][slotsCtr] == car){
+          parkingSlots[parkingLotsCtr][slotsCtr] = car;
+          car.setParked(false);
+        }
+      }
     }
   }
 }
